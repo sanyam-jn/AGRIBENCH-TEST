@@ -1,8 +1,17 @@
 # AI-AgriBench Evaluation Report
 
-Generated: 2026-04-18T22:45:43.042796Z  
+Generated: 2026-04-18T22:59:35.358854Z  
 Questions evaluated: 20  
-Models: gemini-2.5-flash, llama-3.3-70b
+Models: gemini-2.5-flash, llama-3.3-70b  
+Judge: Mistral Small (neutral third-party, different family from both subjects)
+
+## Key Findings
+
+Both models score highly on accuracy and relevance (90s), consistent with AI-AgriBench's own finding that frontier models largely saturate factual agricultural knowledge. The most discriminating metric is **Actionability** — the gap between models is largest here and variance within models is highest, revealing qualitative differences that accuracy alone cannot detect.
+
+**Conciseness is the lowest-scoring metric for both models**, confirming the anti-correlation with Completeness reported in the AI-AgriBench methodology — models that cover more ground inevitably use more text, which the conciseness rubric penalises. This is a structural tension in the metric design, not a model failure.
+
+**The largest actionability gap appears in Water Management and Irrigation** (24.0 points difference). This is consistent with the domain: irrigation and water management decisions are inherently site-specific — dependent on local soil type, crop growth stage, and evapotranspiration rates. Models that give generic guidance ('irrigate when soil moisture is low') score poorly; those providing specific thresholds ('apply 1–1.5 inches per week during grain fill') score well. This pattern would be invisible under accuracy or completeness alone.
 
 ## Overall Scores (0–100)
 
@@ -15,6 +24,8 @@ Models: gemini-2.5-flash, llama-3.3-70b
 | **Actionability** | 94.3 ± 3.69 | 84.85 ± 8.42 |
 
 ## Per-Category Breakdown
+
+> Actionability shows the most variation across categories, reflecting differences in how site-specific each topic area is.
 
 ### Crop Nutrition and Fertility Management
 
@@ -102,6 +113,31 @@ Models: gemini-2.5-flash, llama-3.3-70b
 - **gemini-2.5-flash** (subject): $0.0096
 - **Judge**: $0.0082
 - **Total**: $0.0257
+
+## Per-Question Cost Breakdown
+
+| Question ID | gemini-2.5-flash ($) | llama-3.3-70b ($) |
+|-------------|----------|----------|
+| qna_000007 | 0.00067 | 0.00050 |
+| qna_000009 | 0.00047 | 0.00045 |
+| qna_000024 | 0.00064 | 0.00044 |
+| qna_000026 | 0.00041 | 0.00040 |
+| qna_000041 | 0.00032 | 0.00017 |
+| qna_000043 | 0.00038 | 0.00034 |
+| qna_000044 | 0.00067 | 0.00045 |
+| qna_000059 | 0.00035 | 0.00041 |
+| qna_000067 | 0.00052 | 0.00039 |
+| qna_000077 | 0.00044 | 0.00037 |
+| qna_000097 | 0.00064 | 0.00049 |
+| qna_000112 | 0.00047 | 0.00044 |
+| qna_000156 | 0.00036 | 0.00030 |
+| qna_000161 | 0.00034 | 0.00032 |
+| qna_000169 | 0.00049 | 0.00034 |
+| qna_000204 | 0.00057 | 0.00051 |
+| qna_000214 | 0.00064 | 0.00041 |
+| qna_000299 | 0.00029 | 0.00042 |
+| qna_000327 | 0.00047 | 0.00041 |
+| qna_000417 | 0.00047 | 0.00035 |
 
 ## Contamination Flags
 

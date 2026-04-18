@@ -45,7 +45,7 @@ def _call_gemini(model_config: "cfg.ModelConfig", question: str) -> dict:
     client = genai.Client(api_key=api_key)
 
     @retry(
-        retry=retry_if_exception_type((genai_errors.APIError, Exception)),
+        retry=retry_if_exception_type((genai_errors.APIError, genai_errors.ClientError)),
         wait=wait_exponential(multiplier=1, min=cfg.RETRY_MIN_WAIT, max=cfg.RETRY_MAX_WAIT),
         stop=stop_after_attempt(cfg.MAX_RETRIES),
         before_sleep=before_sleep_log(logger, logging.WARNING),
