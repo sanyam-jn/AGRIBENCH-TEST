@@ -1,0 +1,443 @@
+{
+  "generated_at": "2026-04-18T22:03:52.796590Z",
+  "models_evaluated": [
+    "gemini-2.5-flash",
+    "llama-3.3-70b"
+  ],
+  "n_questions": 20,
+  "overall_scores": {
+    "gemini-2.5-flash": {
+      "accuracy": {
+        "mean": 94,
+        "std": 3.48,
+        "n": 20
+      },
+      "relevance": {
+        "mean": 99.5,
+        "std": 2.24,
+        "n": 20
+      },
+      "completeness": {
+        "mean": 89.25,
+        "std": 2.45,
+        "n": 20
+      },
+      "conciseness": {
+        "mean": 76.5,
+        "std": 9.88,
+        "n": 20
+      },
+      "actionability": {
+        "mean": 86,
+        "std": 16.43,
+        "n": 20
+      }
+    },
+    "llama-3.3-70b": {
+      "accuracy": {
+        "mean": 98.5,
+        "std": 3.66,
+        "n": 20
+      },
+      "relevance": {
+        "mean": 100,
+        "std": 0.0,
+        "n": 20
+      },
+      "completeness": {
+        "mean": 95,
+        "std": 9.32,
+        "n": 20
+      },
+      "conciseness": {
+        "mean": 75.25,
+        "std": 12.62,
+        "n": 20
+      },
+      "actionability": {
+        "mean": 56,
+        "std": 16.11,
+        "n": 20
+      }
+    }
+  },
+  "category_breakdown": {
+    "Soils_and_Soil_Health": {
+      "gemini-2.5-flash": {
+        "accuracy": {
+          "mean": 95,
+          "n": 7
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 7
+        },
+        "completeness": {
+          "mean": 90,
+          "n": 7
+        },
+        "conciseness": {
+          "mean": 80,
+          "n": 7
+        },
+        "actionability": {
+          "mean": 90.71,
+          "n": 7
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 98.57,
+          "n": 7
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 7
+        },
+        "completeness": {
+          "mean": 97.14,
+          "n": 7
+        },
+        "conciseness": {
+          "mean": 80,
+          "n": 7
+        },
+        "actionability": {
+          "mean": 68.57,
+          "n": 7
+        }
+      }
+    },
+    "Crop_Nutrition_and_Fertility_Management": {
+      "gemini-2.5-flash": {
+        "accuracy": {
+          "mean": 94.44,
+          "n": 9
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 9
+        },
+        "completeness": {
+          "mean": 88.89,
+          "n": 9
+        },
+        "conciseness": {
+          "mean": 73.33,
+          "n": 9
+        },
+        "actionability": {
+          "mean": 80.56,
+          "n": 9
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 98.89,
+          "n": 9
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 9
+        },
+        "completeness": {
+          "mean": 95,
+          "n": 9
+        },
+        "conciseness": {
+          "mean": 80.56,
+          "n": 9
+        },
+        "actionability": {
+          "mean": 57.22,
+          "n": 9
+        }
+      }
+    },
+    "Seed_Hybrid_Rootstock_Selection": {
+      "gemini-2.5-flash": {
+        "accuracy": {
+          "mean": 92,
+          "n": 5
+        },
+        "relevance": {
+          "mean": 98,
+          "n": 5
+        },
+        "completeness": {
+          "mean": 89,
+          "n": 5
+        },
+        "conciseness": {
+          "mean": 78,
+          "n": 5
+        },
+        "actionability": {
+          "mean": 89,
+          "n": 5
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 98,
+          "n": 5
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 5
+        },
+        "completeness": {
+          "mean": 93,
+          "n": 5
+        },
+        "conciseness": {
+          "mean": 67,
+          "n": 5
+        },
+        "actionability": {
+          "mean": 48,
+          "n": 5
+        }
+      }
+    },
+    "Pests_and_Pest_Management": {
+      "gemini-2.5-flash": {
+        "accuracy": {
+          "mean": 95,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 90,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 80,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 95,
+          "n": 1
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 100,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 100,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 75,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 50,
+          "n": 1
+        }
+      }
+    },
+    "Horticultural_and_Agronomic_Practices": {
+      "gemini-2.5-flash": {
+        "accuracy": {
+          "mean": 95,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 90,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 80,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 85,
+          "n": 1
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 90,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 80,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 70,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 40,
+          "n": 1
+        }
+      }
+    },
+    "Weather_and_Weather_Risks": {
+      "gemini-2.5-flash": {
+        "accuracy": {
+          "mean": 95,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 90,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 80,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 85,
+          "n": 1
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 90,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 80,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 70,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 40,
+          "n": 1
+        }
+      }
+    },
+    "Water_Management_and_Irrigation": {
+      "gemini-2.5-flash": {
+        "accuracy": {
+          "mean": 92.5,
+          "n": 2
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 2
+        },
+        "completeness": {
+          "mean": 85,
+          "n": 2
+        },
+        "conciseness": {
+          "mean": 60,
+          "n": 2
+        },
+        "actionability": {
+          "mean": 52.5,
+          "n": 2
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 100,
+          "n": 2
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 2
+        },
+        "completeness": {
+          "mean": 100,
+          "n": 2
+        },
+        "conciseness": {
+          "mean": 60,
+          "n": 2
+        },
+        "actionability": {
+          "mean": 40,
+          "n": 2
+        }
+      }
+    },
+    "Weeds_and_Weed_Management": {
+      "gemini-2.5-flash": {
+        "accuracy": {
+          "mean": 95,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 90,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 80,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 95,
+          "n": 1
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 100,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 100,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 100,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 75,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 75,
+          "n": 1
+        }
+      }
+    }
+  },
+  "cost_summary": {
+    "subject_model_costs_usd": {
+      "llama-3.3-70b": 0.007911,
+      "gemini-2.5-flash": 0.009609000000000001
+    },
+    "judge_cost_usd": 0.003547,
+    "total_usd": 0.021067
+  },
+  "contamination_flags": []
+}
