@@ -142,6 +142,49 @@ def _call_gemini_judge(prompt: str) -> tuple:
     return response.text, round(cost, 6)
 
 
+def _call_mistral_judge(prompt: str) -> tuple:
+    import requests as req
+
+    api_key = os.environ.get("MISTRAL_API_KEY")
+    if not api_key:
+        raise EnvironmentError("MISTRAL_API_KEY is not set.")
+
+    @retry(
+        retry=retry_if_exception_type(Exception),
+        wait=wait_exponential(multiplier=1, min=cfg.RETRY_MIN_WAIT, max=cfg.RETRY_MAX_WAIT),
+        stop=stop_after_attempt(cfg.MAX_RETRIES),
+        before_sleep=before_sleep_log(logger, logging.WARNING),
+        reraise=True,
+    )
+    def _do_call():
+        response = req.post(
+            "https://api.mistral.ai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": cfg.JUDGE_MODEL.model_id,
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.0,
+                "max_tokens": 512,
+            },
+            timeout=60,
+        )
+        response.raise_for_status()
+        return response.json()
+
+    data = _do_call()
+    text = data["choices"][0]["message"]["content"]
+    usage = data.get("usage", {})
+    tokens_in = usage.get("prompt_tokens", 0)
+    tokens_out = usage.get("completion_tokens", 0)
+    cost = (tokens_in / 1_000_000) * cfg.JUDGE_MODEL.cost_per_1m_input + \
+           (tokens_out / 1_000_000) * cfg.JUDGE_MODEL.cost_per_1m_output
+
+    return text, round(cost, 6)
+
+
 def _call_groq_judge(prompt: str) -> tuple:
     from groq import Groq, RateLimitError, APIStatusError
 
@@ -226,6 +269,8 @@ def score_response(question: str, gold_answer: str, response: str) -> dict:
         raw, judge_cost = _call_gemini_judge(prompt)
     elif cfg.JUDGE_MODEL.provider == "groq":
         raw, judge_cost = _call_groq_judge(prompt)
+    elif cfg.JUDGE_MODEL.provider == "mistral":
+        raw, judge_cost = _call_mistral_judge(prompt)
     else:
         raise ValueError(f"Unknown judge provider: {cfg.JUDGE_MODEL.provider}")
 

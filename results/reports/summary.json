@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-18T22:03:52.796590Z",
+  "generated_at": "2026-04-18T22:45:43.042796Z",
   "models_evaluated": [
     "gemini-2.5-flash",
     "llama-3.3-70b"
@@ -8,55 +8,55 @@
   "overall_scores": {
     "gemini-2.5-flash": {
       "accuracy": {
-        "mean": 94,
-        "std": 3.48,
+        "mean": 97.75,
+        "std": 0.91,
         "n": 20
       },
       "relevance": {
-        "mean": 99.5,
-        "std": 2.24,
+        "mean": 98.45,
+        "std": 3.38,
         "n": 20
       },
       "completeness": {
-        "mean": 89.25,
-        "std": 2.45,
+        "mean": 97.65,
+        "std": 1.23,
         "n": 20
       },
       "conciseness": {
-        "mean": 76.5,
-        "std": 9.88,
+        "mean": 91.15,
+        "std": 3.57,
         "n": 20
       },
       "actionability": {
-        "mean": 86,
-        "std": 16.43,
+        "mean": 94.3,
+        "std": 3.69,
         "n": 20
       }
     },
     "llama-3.3-70b": {
       "accuracy": {
-        "mean": 98.5,
-        "std": 3.66,
+        "mean": 94.5,
+        "std": 2.59,
         "n": 20
       },
       "relevance": {
-        "mean": 100,
-        "std": 0.0,
+        "mean": 96.75,
+        "std": 2.45,
         "n": 20
       },
       "completeness": {
-        "mean": 95,
-        "std": 9.32,
+        "mean": 92.35,
+        "std": 3.99,
         "n": 20
       },
       "conciseness": {
-        "mean": 75.25,
-        "std": 12.62,
+        "mean": 88.15,
+        "std": 2.92,
         "n": 20
       },
       "actionability": {
-        "mean": 56,
-        "std": 16.11,
+        "mean": 84.85,
+        "std": 8.42,
         "n": 20
       }
     }
@@ -65,45 +65,45 @@
     "Soils_and_Soil_Health": {
       "gemini-2.5-flash": {
         "accuracy": {
-          "mean": 95,
+          "mean": 97.43,
           "n": 7
         },
         "relevance": {
-          "mean": 100,
+          "mean": 99.29,
           "n": 7
         },
         "completeness": {
-          "mean": 90,
+          "mean": 97.71,
           "n": 7
         },
         "conciseness": {
-          "mean": 80,
+          "mean": 90.71,
           "n": 7
         },
         "actionability": {
-          "mean": 90.71,
+          "mean": 95,
           "n": 7
         }
       },
       "llama-3.3-70b": {
         "accuracy": {
-          "mean": 98.57,
+          "mean": 95,
           "n": 7
         },
         "relevance": {
-          "mean": 100,
+          "mean": 97.57,
           "n": 7
         },
         "completeness": {
-          "mean": 97.14,
+          "mean": 92.71,
           "n": 7
         },
         "conciseness": {
-          "mean": 80,
+          "mean": 89.43,
           "n": 7
         },
         "actionability": {
-          "mean": 68.57,
+          "mean": 87.57,
           "n": 7
         }
       }
@@ -111,45 +111,45 @@
     "Crop_Nutrition_and_Fertility_Management": {
       "gemini-2.5-flash": {
         "accuracy": {
-          "mean": 94.44,
+          "mean": 97.56,
           "n": 9
         },
         "relevance": {
-          "mean": 100,
+          "mean": 97.78,
           "n": 9
         },
         "completeness": {
-          "mean": 88.89,
+          "mean": 97.78,
           "n": 9
         },
         "conciseness": {
-          "mean": 73.33,
+          "mean": 93.22,
           "n": 9
         },
         "actionability": {
-          "mean": 80.56,
+          "mean": 94.44,
           "n": 9
         }
       },
       "llama-3.3-70b": {
         "accuracy": {
-          "mean": 98.89,
+          "mean": 94.44,
           "n": 9
         },
         "relevance": {
-          "mean": 100,
+          "mean": 97.22,
           "n": 9
         },
         "completeness": {
-          "mean": 95,
+          "mean": 91.56,
           "n": 9
         },
         "conciseness": {
-          "mean": 80.56,
+          "mean": 89.44,
           "n": 9
         },
         "actionability": {
-          "mean": 57.22,
+          "mean": 85.56,
           "n": 9
         }
       }
@@ -157,45 +157,45 @@
     "Seed_Hybrid_Rootstock_Selection": {
       "gemini-2.5-flash": {
         "accuracy": {
-          "mean": 92,
+          "mean": 97.8,
           "n": 5
         },
         "relevance": {
-          "mean": 98,
+          "mean": 98.4,
           "n": 5
         },
         "completeness": {
-          "mean": 89,
+          "mean": 97.4,
           "n": 5
         },
         "conciseness": {
-          "mean": 78,
+          "mean": 88.2,
           "n": 5
         },
         "actionability": {
-          "mean": 89,
+          "mean": 93,
           "n": 5
         }
       },
       "llama-3.3-70b": {
         "accuracy": {
-          "mean": 98,
+          "mean": 94.8,
           "n": 5
         },
         "relevance": {
-          "mean": 100,
+          "mean": 97,
           "n": 5
         },
         "completeness": {
-          "mean": 93,
+          "mean": 94.4,
           "n": 5
         },
         "conciseness": {
-          "mean": 67,
+          "mean": 88.2,
           "n": 5
         },
         "actionability": {
-          "mean": 48,
+          "mean": 82.4,
           "n": 5
         }
       }
@@ -203,19 +203,19 @@
     "Pests_and_Pest_Management": {
       "gemini-2.5-flash": {
         "accuracy": {
-          "mean": 95,
+          "mean": 98,
           "n": 1
         },
         "relevance": {
-          "mean": 100,
+          "mean": 99,
           "n": 1
         },
         "completeness": {
-          "mean": 90,
+          "mean": 97,
           "n": 1
         },
         "conciseness": {
-          "mean": 80,
+          "mean": 88,
           "n": 1
         },
         "actionability": {
@@ -225,23 +225,23 @@
       },
       "llama-3.3-70b": {
         "accuracy": {
-          "mean": 100,
+          "mean": 94,
           "n": 1
         },
         "relevance": {
-          "mean": 100,
+          "mean": 88,
           "n": 1
         },
         "completeness": {
-          "mean": 100,
+          "mean": 92,
           "n": 1
         },
         "conciseness": {
-          "mean": 75,
+          "mean": 85,
           "n": 1
         },
         "actionability": {
-          "mean": 50,
+          "mean": 87,
           "n": 1
         }
       }
@@ -249,15 +249,37 @@
     "Horticultural_and_Agronomic_Practices": {
       "gemini-2.5-flash": {
         "accuracy": {
-          "mean": 95,
+          "mean": 98,
           "n": 1
         },
         "relevance": {
-          "mean": 100,
+          "mean": 99,
           "n": 1
         },
         "completeness": {
-          "mean": 90,
+          "mean": 97,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 92,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 88,
+          "n": 1
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 92,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 95,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 88,
           "n": 1
         },
         "conciseness": {
@@ -266,28 +288,6 @@
         },
         "actionability": {
           "mean": 85,
-          "n": 1
-        }
-      },
-      "llama-3.3-70b": {
-        "accuracy": {
-          "mean": 90,
-          "n": 1
-        },
-        "relevance": {
-          "mean": 100,
-          "n": 1
-        },
-        "completeness": {
-          "mean": 80,
-          "n": 1
-        },
-        "conciseness": {
-          "mean": 70,
-          "n": 1
-        },
-        "actionability": {
-          "mean": 40,
           "n": 1
         }
       }
@@ -295,15 +295,37 @@
     "Weather_and_Weather_Risks": {
       "gemini-2.5-flash": {
         "accuracy": {
-          "mean": 95,
+          "mean": 98,
           "n": 1
         },
         "relevance": {
-          "mean": 100,
+          "mean": 99,
           "n": 1
         },
         "completeness": {
-          "mean": 90,
+          "mean": 97,
+          "n": 1
+        },
+        "conciseness": {
+          "mean": 92,
+          "n": 1
+        },
+        "actionability": {
+          "mean": 88,
+          "n": 1
+        }
+      },
+      "llama-3.3-70b": {
+        "accuracy": {
+          "mean": 92,
+          "n": 1
+        },
+        "relevance": {
+          "mean": 95,
+          "n": 1
+        },
+        "completeness": {
+          "mean": 88,
           "n": 1
         },
         "conciseness": {
@@ -312,28 +334,6 @@
         },
         "actionability": {
           "mean": 85,
-          "n": 1
-        }
-      },
-      "llama-3.3-70b": {
-        "accuracy": {
-          "mean": 90,
-          "n": 1
-        },
-        "relevance": {
-          "mean": 100,
-          "n": 1
-        },
-        "completeness": {
-          "mean": 80,
-          "n": 1
-        },
-        "conciseness": {
-          "mean": 70,
-          "n": 1
-        },
-        "actionability": {
-          "mean": 40,
           "n": 1
         }
       }
@@ -341,7 +341,7 @@
     "Water_Management_and_Irrigation": {
       "gemini-2.5-flash": {
         "accuracy": {
-          "mean": 92.5,
+          "mean": 98,
           "n": 2
         },
         "relevance": {
@@ -349,37 +349,37 @@
           "n": 2
         },
         "completeness": {
-          "mean": 85,
+          "mean": 99,
           "n": 2
         },
         "conciseness": {
-          "mean": 60,
+          "mean": 90,
           "n": 2
         },
         "actionability": {
-          "mean": 52.5,
+          "mean": 94.5,
           "n": 2
         }
       },
       "llama-3.3-70b": {
         "accuracy": {
-          "mean": 100,
+          "mean": 94,
           "n": 2
         },
         "relevance": {
-          "mean": 100,
+          "mean": 98,
           "n": 2
         },
         "completeness": {
-          "mean": 100,
+          "mean": 92,
           "n": 2
         },
         "conciseness": {
-          "mean": 60,
+          "mean": 88,
           "n": 2
         },
         "actionability": {
-          "mean": 40,
+          "mean": 70.5,
           "n": 2
         }
       }
@@ -387,7 +387,7 @@
     "Weeds_and_Weed_Management": {
       "gemini-2.5-flash": {
         "accuracy": {
-          "mean": 95,
+          "mean": 98,
           "n": 1
         },
         "relevance": {
@@ -395,37 +395,37 @@
           "n": 1
         },
         "completeness": {
-          "mean": 90,
+          "mean": 97,
           "n": 1
         },
         "conciseness": {
-          "mean": 80,
+          "mean": 95,
           "n": 1
         },
         "actionability": {
-          "mean": 95,
+          "mean": 99,
           "n": 1
         }
       },
       "llama-3.3-70b": {
         "accuracy": {
-          "mean": 100,
+          "mean": 95,
           "n": 1
         },
         "relevance": {
-          "mean": 100,
+          "mean": 98,
           "n": 1
         },
         "completeness": {
-          "mean": 100,
+          "mean": 92,
           "n": 1
         },
         "conciseness": {
-          "mean": 75,
+          "mean": 88,
           "n": 1
         },
         "actionability": {
-          "mean": 75,
+          "mean": 85,
           "n": 1
         }
       }
@@ -436,8 +436,8 @@
       "llama-3.3-70b": 0.007911,
       "gemini-2.5-flash": 0.009609000000000001
     },
-    "judge_cost_usd": 0.003547,
-    "total_usd": 0.021067
+    "judge_cost_usd": 0.008151,
+    "total_usd": 0.025671
   },
   "contamination_flags": []
 }
