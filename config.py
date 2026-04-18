@@ -45,11 +45,11 @@ SUBJECT_MODELS = [
 # We use Gemini 2.5 Flash Lite as judge — lighter and distinct from the
 # gemini-2.5-flash subject model, reducing same-version self-evaluation bias.
 JUDGE_MODEL = ModelConfig(
-    name="llama-3.1-8b-judge",
-    provider="groq",
-    model_id="llama-3.1-8b-instant",
-    cost_per_1m_input=0.05,
-    cost_per_1m_output=0.08,
+    name="gemini-2.5-flash",
+    provider="google",
+    model_id="gemini-2.5-flash",
+    cost_per_1m_input=0.15,
+    cost_per_1m_output=0.60,
 )
 
 # ── Paths ─────────────────────────────────────────────────────────────────────

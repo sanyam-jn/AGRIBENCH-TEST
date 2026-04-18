@@ -39,55 +39,70 @@ logger = logging.getLogger(__name__)
 
 # ── Judge prompt ──────────────────────────────────────────────────────────────
 
-JUDGE_PROMPT_TEMPLATE = """You are an expert agricultural evaluation judge.
-Score the MODEL RESPONSE against the GOLD ANSWER for the given QUESTION.
+JUDGE_PROMPT_TEMPLATE = """You are an expert agricultural evaluation judge. Your job is to score a model's response critically and precisely.
+
+IMPORTANT SCORING RULES:
+- Use the FULL range 0–100. Do NOT default to round numbers like 90, 95, 100.
+- A score of 100 means genuinely flawless — nothing could be improved. This should be rare.
+- A score of 80 means good but with clear room for improvement.
+- Differentiate scores between metrics — a response can be highly relevant but incomplete.
+- Think step by step before scoring.
 
 QUESTION:
 {question}
 
-GOLD ANSWER:
+GOLD ANSWER (expert-curated reference):
 {gold_answer}
 
 MODEL RESPONSE:
 {response}
 
-Score each metric from 0 to 100 using these anchors:
+First, briefly reason about the response (2-3 sentences). Then score each metric.
 
 ACCURACY — factual correctness and alignment with expert consensus
-  100: Fully correct, right terminology, no factual errors
-   50: Partially correct; some errors or imprecision
-    0: Contradicts expert consensus or is entirely wrong
+  90-100: Fully correct, precise terminology, zero factual errors
+  70-89:  Mostly correct with minor imprecision or missing nuance
+  50-69:  Some correct points but notable factual errors or gaps
+  25-49:  Multiple errors or contradicts established practice
+  0-24:   Largely wrong or contradicts expert consensus
 
-RELEVANCE — whether the response addresses the actual question
-  100: Directly and fully on-topic
-   50: Mostly relevant but drifts or misses key aspects
-    0: Does not address the question
+RELEVANCE — whether the response addresses the actual question asked
+  90-100: Directly and fully on-topic, no drift
+  70-89:  Mostly relevant with minor drift or missed aspect
+  50-69:  Partially relevant, misses key aspects of the question
+  25-49:  Significantly off-topic
+  0-24:   Does not address the question
 
-COMPLETENESS — coverage of key steps, caveats, and conditions
-  100: All critical points covered including caveats
-   50: Covers main points but has notable gaps
-    0: Fails to address most key elements
+COMPLETENESS — coverage of key steps, caveats, and conditions a farmer needs
+  90-100: All critical points covered including important caveats and edge cases
+  70-89:  Covers most key points, one or two notable gaps
+  50-69:  Covers the basics but missing important elements
+  25-49:  Significant gaps — a farmer would be missing critical information
+  0-24:   Fails to address most key elements
 
-CONCISENESS — focused, practical, free of unnecessary filler
-  100: Precise and actionable, no padding
-   50: Some redundancy but generally focused
-    0: Extremely verbose, rambling, or padded
+CONCISENESS — focused, practical guidance without unnecessary filler
+  90-100: Every sentence adds value, no padding or repetition
+  70-89:  Mostly focused with minor redundancy
+  50-69:  Some unnecessary content but core guidance is present
+  25-49:  Noticeably verbose, repetitive, or padded
+  0-24:   Extremely rambling with little signal-to-noise
 
-ACTIONABILITY — specificity of implementable guidance (5th metric)
-  Measures whether a farmer can act on this response TODAY without
-  needing to look anything else up.
-  100: Includes specific quantities/rates, timing, ordered steps, thresholds
-   50: Gives general steps but lacks specifics needed to act
-    0: Purely conceptual — no implementable guidance
+ACTIONABILITY — can a farmer act on this TODAY without further research?
+  Checks for: specific quantities/rates, timing windows, ordered steps, decision thresholds
+  90-100: Highly specific — farmer knows exactly what to do, how much, and when
+  70-89:  Mostly actionable but missing one key specific (e.g., quantity or timing)
+  50-69:  Directionally correct but too vague to act on without more research
+  25-49:  Some action items mentioned but buried or unclear
+  0-24:   Purely conceptual — no implementable guidance whatsoever
 
 Respond ONLY with a valid JSON object, no markdown fences:
 {{
+  "reasoning": "<2-3 sentences evaluating the response critically>",
   "accuracy": <integer 0-100>,
   "relevance": <integer 0-100>,
   "completeness": <integer 0-100>,
   "conciseness": <integer 0-100>,
-  "actionability": <integer 0-100>,
-  "reasoning": "<one sentence explaining the overall assessment>"
+  "actionability": <integer 0-100>
 }}"""
 
 
