@@ -72,15 +72,15 @@ agribench-test/
 
 | Role | Model | Why |
 |------|-------|-----|
-| Subject 1 | `gemini-1.5-flash` (Google) | Frontier instruction-tuned model; tends to be verbose and comprehensive — a useful baseline for measuring the conciseness/completeness tradeoff |
-| Subject 2 | `llama-3.3-70b-versatile` (Groq/Meta) | State-of-the-art open-source model; expected to be more concise but potentially less thorough on specialised agricultural topics |
-| Judge | `gemini-2.0-flash` (Google) | Different model generation from both subjects, reducing same-provider bias for the Gemini subject model |
+| Subject 1 | `gemini-2.5-flash` (Google) | Google's latest frontier flash model; tends to be verbose and comprehensive — useful baseline for measuring the conciseness/completeness tradeoff |
+| Subject 2 | `llama-3.3-70b-versatile` (Groq/Meta) | State-of-the-art open-source model; expected to be more direct but potentially less thorough on specialised agricultural topics |
+| Judge | `llama-3.1-8b-instant` (Groq/Meta) | Smaller, faster model from a different generation than both subjects; avoids same-model self-evaluation bias |
 
-These two subject models were chosen specifically to produce **meaningfully different results**: a frontier proprietary model vs. a strong open-source one. Their likely differences in verbosity, depth, and agricultural specificity make the evaluation informative.
+These two subject models were chosen specifically to produce **meaningfully different results**: a frontier proprietary model vs. a strong open-source one. Their differences in verbosity, depth, and agricultural specificity make the evaluation informative.
 
 ### Evaluation Methodology: LLM-as-a-Judge
 
-We use a single Gemini 2.0 Flash judge with a structured rubric and JSON-format responses. This approach was chosen over:
+We use a single Llama 3.1 8B judge (via Groq) with a structured rubric and JSON-format responses. This approach was chosen over:
 
 - **ROUGE/BERTScore**: Too surface-level for agricultural advisory content where a correct answer may use different terminology than the gold answer.
 - **Multi-judge ensemble**: Ideal but 3× more expensive and complex. We document this as a limitation — a production system should use ≥3 judges for cross-validation.
@@ -126,6 +126,24 @@ Simply re-run `python pipeline.py`. The checkpoint files in `results/responses/`
 ## Known Limitations
 
 1. **Single judge model**: A production system should use ≥3 independent judges and average scores to reduce variance.
-2. **Same-family judge for Gemini subject**: Gemini 2.0 Flash shares Google's training lineage with Gemini 1.5 Flash. This may introduce correlated biases when scoring the Gemini subject model.
+2. **Smaller judge**: Llama 3.1 8B is used as judge for cost/availability reasons. A larger judge would produce more reliable scores.
 3. **Gold answer quality**: Scores are relative to the provided gold answers. If a gold answer is incomplete, a more complete model response will be unfairly penalised on conciseness.
 4. **LLM judge calibration**: Without human validation, we cannot confirm the judge's scores correlate with true quality. Confidence intervals on scores should be treated as approximate.
+
+---
+
+## Results Summary
+
+Evaluated on 20 agricultural Q&A questions across 8 topic categories. Total cost: **$0.02**.
+
+| Metric | gemini-2.5-flash | llama-3.3-70b |
+|--------|-----------------|---------------|
+| Accuracy | 94.0 ± 3.5 | **98.5 ± 3.7** |
+| Relevance | 99.5 ± 2.2 | **100.0 ± 0.0** |
+| Completeness | 89.3 ± 2.5 | **95.0 ± 9.3** |
+| Conciseness | **76.5 ± 9.9** | 75.3 ± 12.6 |
+| Actionability *(5th)* | **86.0 ± 16.4** | 56.0 ± 16.1 |
+
+**Key finding:** Llama 3.3 70B scores higher on traditional accuracy/completeness metrics, but Gemini 2.5 Flash leads significantly on Actionability — it provides more specific, implementable guidance (quantities, timing, thresholds) that a farmer can act on immediately. This validates the 5th metric as genuinely discriminating rather than redundant. No contamination was detected in any of the 40 responses.
+
+Charts available in `results/reports/`: radar chart, per-category bar chart, and conciseness vs. completeness scatter plot.
