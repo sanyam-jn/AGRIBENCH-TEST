@@ -173,7 +173,7 @@ Instead of one judge, use three from entirely different training lineages and av
 
 Averaging three judges from different families eliminates same-family bias, reduces individual judge variance, and allows **inter-judge agreement** to be computed. When judges disagree by more than 15 points on a metric, that response gets flagged for human review — a much more honest signal than a single judge's score.
 
-This is exactly how AI-AgriBench's own methodology works: three judges with a swap-out rule when the subject model is also a judge.
+
 
 ### 2. Better Subject Model Comparisons
 
