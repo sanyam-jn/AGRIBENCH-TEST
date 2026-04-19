@@ -123,7 +123,9 @@ I use a heuristic 5-gram overlap check between each model response and the gold 
 
 ### Cost Tracking
 
-Token usage (input + output) is recorded for every API call. Costs are estimated using published per-million-token rates (see `config.py`) and reported per-model and per-question in the final report. The judge's cost is tracked separately. Total cost for this evaluation: **$0.026**.
+Token usage (input + output) is recorded for every API call. Costs are estimated using published per-million-token rates (see `config.py`) and reported per-model and per-question in the final report. The judge's cost is tracked separately.
+
+All three APIs (Gemini, Groq, Mistral) were used on their **free tiers** — actual spend was **$0.00**. The estimated cost of **$0.026** reflects what this evaluation would cost at paid-tier rates, which is useful for understanding the pipeline's economics at production scale.
 
 ---
 
@@ -146,7 +148,7 @@ Judge: `mistral-small-latest` neutral third party, different family from both su
 - The largest single-category gap is Water Management actionability (94.5 vs. 70.5), consistent with the domain: irrigation advice must be site-specific to be implementable
 - **Conciseness is the lowest-scoring metric for both models**, confirming the anti-correlation with Completeness reported in the AI-AgriBench methodology
 - No contamination detected across all 40 responses
-- Total pipeline cost: **$0.026**
+- Total pipeline cost: **$0.00** (all free tiers) — estimated paid-tier equivalent: **$0.026**
 
 Charts in `results/reports/`: radar chart, per-category bar chart, and conciseness vs. completeness scatter plot directly confirming the anti-correlation from Q2 of the written answers.
 
