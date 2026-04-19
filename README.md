@@ -233,3 +233,83 @@ python pipeline.py
 | Cost tracking (per-model + per-question) | `src/report.py` — reported in `report.md` and `summary.json` |
 | Contamination detection | `src/contamination.py` — n-gram + Jaccard flagging |
 | Visualizations | `visualize.py` — radar chart, category bars, scatter plot |
+
+---
+
+## Extended Validation Metrics (Beyond the Assignment)
+
+After completing the main pipeline, we built two additional metrics in `validate.py`. These were not part of the original requirement — they came from a question we asked ourselves: *our accuracy scores look good, but how do we know the judge isn't missing hidden errors?*
+
+Run after the main pipeline:
+
+```bash
+python validate.py
+```
+
+Produces `results/reports/validation_report.md` and raw data in `results/validation/`.
+
+---
+
+### Metric 1 — Fact Check Score
+
+*Does every claim the model makes hold up against the expert answer?*
+
+The main pipeline scores accuracy holistically — a judge reads the whole response and forms an overall impression. That works most of the time, but it can miss one confidently-stated wrong fact buried in an otherwise good response. In agriculture, one wrong fact — the wrong nitrogen rate, the wrong pesticide timing — can damage a crop. The impression that a response is "mostly right" is not good enough.
+
+So we built claim-level verification. Each response is broken into individual factual sentences. Every sentence is checked against the gold answer — supported, neutral, or contradicted. Each contradiction costs 25 points, applied as a hard penalty on top of the base score. A response with 9 correct claims and 1 contradiction scores around 64, not 89. That is intentional.
+
+The most useful output is the divergence table — where Fact Check and holistic Accuracy disagree by more than 10 points. That is exactly where hallucinations are hiding.
+
+---
+
+### Metric 2 — Confidence Check Score
+
+*Is the model appropriately uncertain, or is it overclaiming?*
+
+Agricultural advice is never one-size-fits-all. Soil type, region, growth stage, and weather all change what a farmer should do. Good advisors say "typically 100–150 lbs/acre depending on your soil test" — not "apply 150 lbs/acre." A model that sounds more certain than the expert is making claims it cannot support.
+
+This metric compares the hedging level of the model response against the hedging level of the gold answer. Overclaiming is penalized more than being too vague — because vague advice is unhelpful, but overconfident wrong advice can cause real damage. The output also flags the direction: does the model overclaim, underclaim, or match the expert's confidence level?
+
+This is something none of the four standard metrics can detect. A response can score 95 on accuracy and still be dangerously overconfident.
+
+---
+
+### Results
+
+#### Fact Check Score
+
+| Model | Fact Check Score | Avg Claims per Response | Contradictions Found |
+|-------|-----------------|------------------------|---------------------|
+| gemini-2.5-flash | 56.15 | 25.9 | 0.19 avg (3 total) |
+| llama-3.3-70b | 51.16 | 23.2 | 0.11 avg (2 total) |
+
+The lower Fact Check scores are expected and explained: model responses are much longer than the gold answers (frontier models generate 25+ claims vs. the expert's focused 2–4 paragraphs). Most extra claims are "neutral" — not in the gold, not contradicted. The real signal is the contradictions found:
+
+**Actual contradicted claims across all 40 responses:**
+- `llama / qna_000161` — *"Using kochia-free water sources for irrigation prevents the introduction of kochia seeds"* (not supported by the expert answer)
+- `llama / qna_000007` — *"Organic nitrogen-rich amendments release nitrogen quickly"* (expert says mineralization is gradual)
+- `gemini / qna_000043` — *"Over-irrigation causes sugarcane leaves to wilt despite ample water"* (expert does not make this claim)
+- `gemini / qna_000043` — *"Over-irrigation causes roots to appear dark, mushy, and have a foul odor"* (not in expert answer)
+- `gemini / qna_000007` — *"Fresh manure can lead to nitrogen immobilization, weed seeds, pathogens, and nutrient burn"* (expert does not mention these risks)
+
+Only 5 contradictions across 40 responses — this actually **validates the holistic accuracy scores**. The models are not hallucinating facts; they are adding extra neutral information beyond the gold answer.
+
+#### Confidence Check Score
+
+| Model | Confidence Score | Overclaims | Underclaims | Calibrated |
+|-------|-----------------|-----------|------------|------------|
+| gemini-2.5-flash | **89.5** | 10 | 0 | 10 |
+| llama-3.3-70b | 83.75 | 14 | 0 | 6 |
+
+**Key finding:** Neither model ever underclaims — both are always at least as specific as the expert. Llama overclaims more often (14/20 questions) — it tends to give prescriptive numbered lists with specific rates the expert did not provide. Gemini is better calibrated, matching the expert's level of certainty on 10/20 questions.
+
+**Zero underclaiming** is an interesting domain finding: frontier models are systematically more confident than agricultural experts. In a real advisory context, this matters — a farmer trusting a confident-sounding model may not seek the local expertise they actually need.
+
+#### Combined View
+
+| Model | Holistic Accuracy | Fact Check | Confidence Check |
+|-------|-----------------|-----------|------------------|
+| **gemini-2.5-flash** | **97.75** | **56.15** | **89.5** |
+| llama-3.3-70b | 94.5 | 51.16 | 83.75 |
+
+Gemini wins across all three views. The Fact Check and Confidence Check results together tell a consistent story: both models are factually sound (only 5 contradictions total), but Llama tends to overclaim more and is less well-calibrated to the expert's level of certainty.
