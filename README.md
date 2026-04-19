@@ -24,7 +24,7 @@ python pipeline.py
 # 5. Results are in results/reports/
 ```
 
-To resume a partial run, just re-run `python pipeline.py` — completed items are skipped automatically.
+To resume a partial run, just re-run `python pipeline.py` completed items are skipped automatically.
 
 ---
 
@@ -32,7 +32,7 @@ To resume a partial run, just re-run `python pipeline.py` — completed items ar
 
 ```
 AGRIBENCH-TEST/
-├── pipeline.py              # Main entry point - run this
+├── pipeline.py              # Main entry point, run this
 ├── visualize.py             # Generates charts (called automatically by pipeline.py)
 ├── validate.py              # Extended validation metrics (run after pipeline.py)
 ├── config.py                # Model configs, paths, retry settings
@@ -125,7 +125,7 @@ I use a heuristic 5-gram overlap check between each model response and the gold 
 
 Token usage (input + output) is recorded for every API call. Costs are estimated using published per-million-token rates (see `config.py`) and reported per-model and per-question in the final report. The judge's cost is tracked separately.
 
-All three APIs (Gemini, Groq, Mistral) were used on their **free tiers** — actual spend was **$0.00**. The estimated cost of **$0.026** reflects what this evaluation would cost at paid-tier rates, which is useful for understanding the pipeline's economics at production scale.
+All three APIs (Gemini, Groq, Mistral) were used on their **free tiers** actual spend was **$0.00**. The estimated cost of **$0.026** reflects what this evaluation would cost at paid-tier rates, which is useful for understanding the pipeline's economics at production scale.
 
 ---
 
@@ -148,7 +148,7 @@ Judge: `mistral-small-latest` neutral third party, different family from both su
 - The largest single-category gap is Water Management actionability (94.5 vs. 70.5), consistent with the domain: irrigation advice must be site-specific to be implementable
 - **Conciseness is the lowest-scoring metric for both models**, confirming the anti-correlation with Completeness reported in the AI-AgriBench methodology
 - No contamination detected across all 40 responses
-- Total pipeline cost: **$0.00** (all free tiers) — estimated paid-tier equivalent: **$0.026**
+- Total pipeline cost: **$0.00** (all free tiers) estimated paid-tier equivalent: **$0.026**
 
 Charts in `results/reports/`: radar chart, per-category bar chart, and conciseness vs. completeness scatter plot directly confirming the anti-correlation from Q2 of the written answers.
 
@@ -253,7 +253,13 @@ Run after the main pipeline:
 python validate.py
 ```
 
-Produces `results/reports/validation_report.md` and raw data in `results/validation/`.
+Produces `results/reports/validation_report.md`, raw data in `results/validation/`, and three charts:
+
+| Chart | What it shows |
+|-------|--------------|
+| `validation_metrics_comparison.png` | Side-by-side bar chart: Holistic Accuracy vs Fact Check vs Confidence Check per model |
+| `holistic_vs_factcheck.png` | Per-question scatter plot — points below the diagonal are where the holistic judge missed a specific error |
+| `confidence_direction.png` | Stacked bar showing how many questions each model overclaims, is calibrated, or underclaims |
 
 ---
 

@@ -27,6 +27,11 @@ from collections import defaultdict
 import requests
 from dotenv import load_dotenv
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import numpy as np
+
 load_dotenv()
 logging.basicConfig(
     level=logging.INFO,
@@ -429,6 +434,113 @@ def generate_validation_report(
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# VISUALISATIONS
+# ══════════════════════════════════════════════════════════════════════════════
+
+COLORS = ["#2196F3", "#FF9800"]  # blue = gemini, orange = llama
+
+
+def generate_validation_charts(
+    fact_results: list,
+    conf_results: list,
+    scores: list,
+    output_dir: str,
+):
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    models = sorted({r["model_name"] for r in fact_results})
+    acc_index = {(s["qna_id"], s["model_name"]): s.get("accuracy") for s in scores}
+
+    # ── Chart 1: Three-metric comparison bar chart ────────────────────────────
+    # Holistic Accuracy vs Fact Check vs Confidence Check per model
+    metrics_labels = ["Holistic\nAccuracy", "Fact Check\nScore", "Confidence\nCheck"]
+    x = np.arange(len(metrics_labels))
+    width = 0.3
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    for i, model in enumerate(models):
+        hol = mean([acc_index.get((r["qna_id"], r["model_name"]), 0) or 0
+                    for r in fact_results if r["model_name"] == model])
+        fc  = mean([r["fact_check_score"] for r in fact_results if r["model_name"] == model])
+        cc  = mean([r["confidence_score"] for r in conf_results if r["model_name"] == model])
+        vals = [hol, fc, cc]
+        bars = ax.bar(x + i * width, vals, width, label=model,
+                      color=COLORS[i % len(COLORS)], alpha=0.85)
+        for bar, val in zip(bars, vals):
+            ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.5,
+                    f"{val:.1f}", ha="center", va="bottom", fontsize=9)
+
+    ax.set_xticks(x + width * (len(models) - 1) / 2)
+    ax.set_xticklabels(metrics_labels, fontsize=11)
+    ax.set_ylabel("Score (0–100)", fontsize=11)
+    ax.set_ylim(0, 115)
+    ax.set_title("Holistic Accuracy vs Extended Validation Metrics", fontsize=13, fontweight="bold")
+    ax.legend()
+    ax.grid(axis="y", alpha=0.3)
+    out1 = Path(output_dir) / "validation_metrics_comparison.png"
+    fig.savefig(out1, bbox_inches="tight", dpi=150)
+    plt.close(fig)
+    print(f"  Saved {out1}")
+
+    # ── Chart 2: Per-question scatter — Holistic Accuracy vs Fact Check ───────
+    fig, ax = plt.subplots(figsize=(8, 6))
+    for i, model in enumerate(models):
+        model_fc = [r for r in fact_results if r["model_name"] == model]
+        xs = [acc_index.get((r["qna_id"], r["model_name"]), 0) or 0 for r in model_fc]
+        ys = [r["fact_check_score"] for r in model_fc]
+        ax.scatter(xs, ys, label=model, color=COLORS[i % len(COLORS)], alpha=0.75, s=70)
+
+    # diagonal reference line (perfect agreement)
+    lims = [0, 105]
+    ax.plot(lims, lims, "k--", alpha=0.3, linewidth=1, label="Perfect agreement")
+    ax.set_xlabel("Holistic Accuracy Score", fontsize=11)
+    ax.set_ylabel("Fact Check Score", fontsize=11)
+    ax.set_title("Holistic Accuracy vs Fact Check Score\n(points below the line = hidden errors)",
+                 fontsize=12, fontweight="bold")
+    ax.set_xlim(0, 105)
+    ax.set_ylim(0, 105)
+    ax.legend()
+    ax.grid(alpha=0.3)
+    out2 = Path(output_dir) / "holistic_vs_factcheck.png"
+    fig.savefig(out2, bbox_inches="tight", dpi=150)
+    plt.close(fig)
+    print(f"  Saved {out2}")
+
+    # ── Chart 3: Confidence direction stacked bar ─────────────────────────────
+    directions = ["overclaims", "calibrated", "underclaims"]
+    dir_colors = ["#E53935", "#43A047", "#1E88E5"]
+
+    fig, ax = plt.subplots(figsize=(7, 5))
+    bottoms = np.zeros(len(models))
+    for d, dc in zip(directions, dir_colors):
+        counts = [
+            sum(1 for r in conf_results if r["model_name"] == m and r["direction"] == d)
+            for m in models
+        ]
+        bars = ax.bar(models, counts, bottom=bottoms, label=d.capitalize(), color=dc, alpha=0.85)
+        for bar, count in zip(bars, counts):
+            if count > 0:
+                ax.text(bar.get_x() + bar.get_width() / 2,
+                        bar.get_y() + bar.get_height() / 2,
+                        str(count), ha="center", va="center", fontsize=11, color="white",
+                        fontweight="bold")
+        bottoms += np.array(counts, dtype=float)
+
+    ax.set_ylabel("Number of Questions", fontsize=11)
+    ax.set_title("Confidence Calibration Direction per Model", fontsize=13, fontweight="bold")
+    ax.legend(loc="upper right")
+    ax.set_ylim(0, max(bottoms) + 3)
+    ax.grid(axis="y", alpha=0.3)
+    short_labels = [m.split("-")[0].capitalize() + "\n" + m.split("-")[1] if "-" in m else m
+                    for m in models]
+    ax.set_xticks(range(len(models)))
+    ax.set_xticklabels(short_labels, fontsize=9)
+    out3 = Path(output_dir) / "confidence_direction.png"
+    fig.savefig(out3, bbox_inches="tight", dpi=150)
+    plt.close(fig)
+    print(f"  Saved {out3}")
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # MAIN
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -453,6 +565,14 @@ def main():
 
     # Generate report
     generate_validation_report(
+        fact_results=fact_results,
+        conf_results=conf_results,
+        scores=scores,
+        output_dir=REPORTS_DIR,
+    )
+
+    # Generate charts
+    generate_validation_charts(
         fact_results=fact_results,
         conf_results=conf_results,
         scores=scores,
